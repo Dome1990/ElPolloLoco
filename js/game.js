@@ -6,5 +6,4 @@ function init() {
     world = new World(canvas);
     world.canvas.height = 739;
     world.canvas.width = 1280;
-    // console.log('new character is ', world.character);
 }
