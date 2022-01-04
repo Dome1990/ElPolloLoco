@@ -8,9 +8,15 @@ class World {
     clouds = [
         new Clouds,
     ];
-    
+
+    /**
+     * BackgroundObject('imagePath', height, x, y)
+     */
     backgroundObjects = [
-        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/1.png', 0, 739-500),
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 739, 0, 0),         //sky
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/1.png', 700, 0, 739 - 700),      //background mountains
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/1.png', 700, 0, 739 - 700),                  //background with cactus
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/1.png', 700, 0, 739 - 700),            //foreground layer
     ];
 
     ctx;
@@ -24,24 +30,20 @@ class World {
     }
 
     draw() {
-
+        /**
+         * clear the canvas
+         */
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 
-
-        this.clouds.forEach(cloud => {
-            this.addToMap(cloud)
-        });
-        // this.backgroundObjects.forEach(backgroundObject => {
-        //     this.addToMap(backgroundObject)
-        // });
         this.addObjectToMap(this.backgroundObjects);
-
-        this.enemies.forEach(enemy => {
-            this.addToMap(enemy)
-        });
+        this.addObjectToMap(this.clouds);
+        this.addObjectToMap(this.enemies);
         this.addToMap(this.character);
 
+        /**
+         * requestAnimationFrame will recall the draw method
+         */
         self = this;
         requestAnimationFrame(function () {
             self.draw();
