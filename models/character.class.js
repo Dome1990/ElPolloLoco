@@ -13,30 +13,39 @@ class Character extends MovableObject {
     speed = 8;
     otherDirection;
     x = 0;
+    walking_sound = new Audio('audio/running.mp3');
+    y=0;
+
 
     constructor() {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.animate();
+        this.applyGravity();
     }
 
-    animate() { 
+    animate() {
         /**
-         * moving the character
+         * moving the character and playing walkingsound
          */
         setInterval(() => {
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
-                this.x += this.speed;
-                this.otherDirection = false;
-            //    this.world.camera_x += -this.speed;
+            this.walking_sound.pause();
+            if (this.world.keyboard.RIGHT) {
+                this.walking_sound.play();
+                if (this.x < this.world.level.level_end_x) {
+                    this.x += this.speed;
+                    this.otherDirection = false;
+                }
             }
-            if(this.world.keyboard.LEFT && this.x > 0){
-                this.x -= this.speed;
-                this.otherDirection = true;
-             //   this.world.camera_x += +this.speed;
+            if (this.world.keyboard.LEFT) {
+                if(this.x > 0){
+                    this.x -= this.speed;
+                    this.otherDirection = true;
+                }
+                this.walking_sound.play();
             }
-            this.world.camera_x = -this.x +100;
-        }, 1000/60)
+            this.world.camera_x = -this.x + 100;
+        }, 1000 / 60)
 
         /**
          * walking animation
