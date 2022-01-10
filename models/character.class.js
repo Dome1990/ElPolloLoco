@@ -27,7 +27,7 @@ class Character extends MovableObject {
     otherDirection;
     x = 0;
     walking_sound = new Audio('audio/running.mp3');
-    y = 0;
+    y = 360;
 
 
     constructor() {
@@ -57,6 +57,10 @@ class Character extends MovableObject {
                     this.otherDirection = true;
                 }
                 this.walking_sound.play();
+            }
+            //character will jump with space and arrow up
+            if((this.world.keyboard.SPACE || this.world.keyboard.UP) && this.y >=360){
+                this.speedY = 40;
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60)

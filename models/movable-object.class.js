@@ -16,11 +16,11 @@ class MovableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000/25);
+        }, 1000 / 25);
     }
 
-    isAbove(){
-        return this.y < 360;
+    isAbove() {
+        return this.y < 360 || this.speedY > 0;
     }
 
     loadImage(path) {
