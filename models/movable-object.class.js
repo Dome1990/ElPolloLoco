@@ -35,28 +35,50 @@ class MovableObject {
             this.imgCache[path] = img;
         });
     }
-
+    /**
+     * 
+     * @param {*} IMAGES_WALKING animation for enemies
+     */
     playAnimation(IMAGES_WALKING) {
         setInterval(() => {
-            let i = this.currentImage % IMAGES_WALKING.length;
-            let path = IMAGES_WALKING[i];
-            this.img = this.imgCache[path];
-            this.currentImage++;
+            this.walkingAnimation();
         }, 100)
-        this.moveLeft();
-    }
-
-    moveRight() {
-        console.log('movingRight');
-    }
-    moveLeft() {
         setInterval(() => {
             if (this.x > -1280) {
-                this.x -= this.speed;
+                this.moveLeft();
             }
             else {
                 this.x = 1280;
             }
         }, 1000 / 60);
     }
+
+    moveRight() {
+        if (this.x < this.world.level.level_end_x) {
+            this.x += this.speed;
+            this.otherDirection = false;
+        }
+    }
+    moveLeft() {
+        this.x -= this.speed;
+    }
+
+    jump() {
+        this.speedY = 40;
+    }
+
+    jumpingAnimation() {
+        let i = this.currentImage % this.IMAGES_JUMPING.length;
+        let path = this.IMAGES_JUMPING[i];
+        this.img = this.imgCache[path];
+        this.currentImage++;
+    }
+
+    walkingAnimation() {
+        let i = this.currentImage % this.IMAGES_WALKING.length;
+        let path = this.IMAGES_WALKING[i];
+        this.img = this.imgCache[path];
+        this.currentImage++;
+    }
+
 }
