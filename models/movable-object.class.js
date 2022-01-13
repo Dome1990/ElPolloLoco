@@ -1,8 +1,8 @@
 class MovableObject {
     x = 100;
     y = 360;
-    heigth = 300;
-    width = 200;
+    heigth;
+    width;
     img;
     imgCache = {};
     speed = 0.15;

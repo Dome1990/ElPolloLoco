@@ -56,17 +56,25 @@ class World {
             this.ctx.save();
             this.ctx.translate(mo.width, 0);
             this.ctx.scale(-1, 1);
-            mo.x = mo.x *-1;
-        }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigth);
-        if (mo.otherDirection) {
-            mo.x = mo.x *-1;
-            this.ctx.restore();
+            mo.x = mo.x * -1;
         }
 
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigth);
+        if (mo.otherDirection) {
+            mo.x = mo.x * -1;
+            this.ctx.restore();
+        }
+        // painting rectangle
+        if(mo instanceof Chicken || mo instanceof Character)
+{        this.ctx.beginPath();
+        this.ctx.lineWidth = "5";
+        this.ctx.strokeStyle = "blue";
+        this.ctx.rect(mo.x, mo.y, mo.width, mo.heigth); // mo.height is not working
+        this.ctx.stroke();}
     }
 
     setWorld() {
         this.character.world = this;
     }
+
 }

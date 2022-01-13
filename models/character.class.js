@@ -28,12 +28,16 @@ class Character extends MovableObject {
     x = 0;
     walking_sound = new Audio('audio/running.mp3');
     y = 360;
+    heigth;
+    width;
 
 
     constructor() {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.width = 200;
+        this.heigth = 300;
         this.animate();
         this.applyGravity();
     }
@@ -82,14 +86,6 @@ class Character extends MovableObject {
                 }
             }
         }, 60);
-        // setInterval(() => {
-        //     // if (this.isAbove()) {
-        //     //     let i = this.currentImage % this.IMAGES_JUMPING.length;
-        //     //     let path = this.IMAGES_JUMPING[i];
-        //     //     this.img = this.imgCache[path];
-        //     //     this.currentImage++;
-        //     // }
-        // }, 10)
     };
 
 }
