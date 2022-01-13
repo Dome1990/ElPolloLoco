@@ -29,7 +29,7 @@ class World {
          */
         this.ctx.translate(this.camera_x, 0);
         /**
-         * draw all elements
+         * draw elements
          */
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
@@ -53,24 +53,16 @@ class World {
     }
     addToMap(mo) {
         if (mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0);
-            this.ctx.scale(-1, 1);
-            mo.x = mo.x * -1;
+            mo.mirrorImage(this.ctx, mo);
         }
-
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.heigth);
+        mo.draw(this.ctx);
         if (mo.otherDirection) {
-            mo.x = mo.x * -1;
-            this.ctx.restore();
+            mo.reMirrorImage(this.ctx)
         }
         // painting rectangle
-        if(mo instanceof Chicken || mo instanceof Character)
-{        this.ctx.beginPath();
-        this.ctx.lineWidth = "5";
-        this.ctx.strokeStyle = "blue";
-        this.ctx.rect(mo.x, mo.y, mo.width, mo.heigth); // mo.height is not working
-        this.ctx.stroke();}
+        if (mo instanceof Chicken || mo instanceof Character) {
+            mo.drawFrame(this.ctx)
+        }
     }
 
     setWorld() {

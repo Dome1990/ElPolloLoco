@@ -28,16 +28,14 @@ class Character extends MovableObject {
     x = 0;
     walking_sound = new Audio('audio/running.mp3');
     y = 360;
-    heigth;
-    width;
+    heigth = 300;
+    width = 200;
 
 
     constructor() {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
-        this.width = 200;
-        this.heigth = 300;
         this.animate();
         this.applyGravity();
     }
@@ -46,46 +44,51 @@ class Character extends MovableObject {
         /**
          * moving the character and playing walkingsound
          */
-        setInterval(() => {
-            this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT) {
-                if (!this.isAbove()) {
-                    this.walking_sound.play();
-                }
-                this.moveRight();
-            }
-            if (this.world.keyboard.LEFT) {
-                if (this.x > 0) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                }
-                if (!this.isAbove()) {
-                    this.walking_sound.play();
-                }
-            }
-            //character will jump with space and arrow up
-            if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
-                this.jump();
-            }
-            this.world.camera_x = -this.x + 100;
-        }, 1000 / 60)
+        this.checkCharactermovement();
+        // setInterval(() => {
+        //     this.walking_sound.pause();
+        //     /**
+        //      * let character walk
+        //      */
+        //     if (this.world.keyboard.RIGHT) {
+        //         if (!this.isAbove()) {
+        //             this.walking_sound.play();
+        //         }
+        //         this.moveRight();
+        //     }
+        //     if (this.world.keyboard.LEFT) {
+        //         if (this.x > 0) {
+        //             this.moveLeft();
+        //             this.otherDirection = true;
+        //         }
+        //         if (!this.isAbove()) {
+        //             this.walking_sound.play();
+        //         }
+        //     }
+        //     //character will jump with space and arrow up
+        //     if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
+        //         this.jump();
+        //     }
+        //     this.world.camera_x = -this.x + 100;
+        // }, 1000 / 60)
 
         /**
          * walking animation
          */
-        setInterval(() => {
-            if (this.isAbove()) {
-                this.jumpingAnimation();
-            }
-            else {
-                if (this.world.keyboard.RIGHT) {
-                    this.walkingAnimation();
-                }
-                if (this.world.keyboard.LEFT) {
-                    this.walkingAnimation();
-                }
-            }
-        }, 60);
+        this.animateMovement();
+        // setInterval(() => {
+        //     if (this.isAbove()) {
+        //         this.jumpingAnimation();
+        //     }
+        //     else {
+        //         if (this.world.keyboard.RIGHT) {
+        //             this.walkingAnimation();
+        //         }
+        //         if (this.world.keyboard.LEFT) {
+        //             this.walkingAnimation();
+        //         }
+        //     }
+        // }, 60);
     };
 
 }

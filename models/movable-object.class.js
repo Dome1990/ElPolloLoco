@@ -53,6 +53,51 @@ class MovableObject {
         }, 1000 / 60);
     }
 
+
+    checkCharactermovement(){    
+    setInterval(() => {
+        this.walking_sound.pause();
+        /**
+         * let character walk
+         */
+        if (this.world.keyboard.RIGHT) {
+            if (!this.isAbove()) {
+                this.walking_sound.play();
+            }
+            this.moveRight();
+        }
+        if (this.world.keyboard.LEFT) {
+            if (this.x > 0) {
+                this.moveLeft();
+                this.otherDirection = true;
+            }
+            if (!this.isAbove()) {
+                this.walking_sound.play();
+            }
+        }
+        //character will jump with space and arrow up
+        if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
+            this.jump();
+        }
+        this.world.camera_x = -this.x + 100;
+    }, 1000 / 60)}
+
+    animateMovement(){
+        setInterval(() => {
+            if (this.isAbove()) {
+                this.jumpingAnimation();
+            }
+            else {
+                if (this.world.keyboard.RIGHT) {
+                    this.walkingAnimation();
+                }
+                if (this.world.keyboard.LEFT) {
+                    this.walkingAnimation();
+                }
+            }
+        }, 60);
+    }
+
     moveRight() {
         if (this.x < this.world.level.level_end_x) {
             this.x += this.speed;
@@ -81,4 +126,25 @@ class MovableObject {
         this.currentImage++;
     }
 
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.heigth);
+    }
+
+    drawFrame(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.strokeStyle = "blue";
+        ctx.rect(this.x, this.y, this.width, this.heigth);
+        ctx.stroke();
+    }
+    mirrorImage(ctx){
+            ctx.save();
+            ctx.translate(this.width, 0);
+            ctx.scale(-1, 1);
+            this.x = this.x * -1;
+    }
+    reMirrorImage(ctx){
+    this.x = this.x * -1;
+    ctx.restore();
+}
 }
