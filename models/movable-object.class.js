@@ -54,35 +54,36 @@ class MovableObject {
     }
 
 
-    checkCharactermovement(){    
-    setInterval(() => {
-        this.walking_sound.pause();
-        /**
-         * let character walk
-         */
-        if (this.world.keyboard.RIGHT) {
-            if (!this.isAbove()) {
-                this.walking_sound.play();
+    checkCharactermovement() {
+        setInterval(() => {
+            this.walking_sound.pause();
+            /**
+             * let character walk
+             */
+            if (this.world.keyboard.RIGHT) {
+                if (!this.isAbove()) {
+                    this.walking_sound.play();
+                }
+                this.moveRight();
             }
-            this.moveRight();
-        }
-        if (this.world.keyboard.LEFT) {
-            if (this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
+            if (this.world.keyboard.LEFT) {
+                if (this.x > 0) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                }
+                if (!this.isAbove()) {
+                    this.walking_sound.play();
+                }
             }
-            if (!this.isAbove()) {
-                this.walking_sound.play();
+            //character will jump with space and arrow up
+            if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
+                this.jump();
             }
-        }
-        //character will jump with space and arrow up
-        if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
-            this.jump();
-        }
-        this.world.camera_x = -this.x + 100;
-    }, 1000 / 60)}
+            this.world.camera_x = -this.x + 100;
+        }, 1000 / 60)
+    }
 
-    animateMovement(){
+    animateMovement() {
         setInterval(() => {
             if (this.isAbove()) {
                 this.jumpingAnimation();
@@ -137,14 +138,22 @@ class MovableObject {
         ctx.rect(this.x, this.y, this.width, this.heigth);
         ctx.stroke();
     }
-    mirrorImage(ctx){
-            ctx.save();
-            ctx.translate(this.width, 0);
-            ctx.scale(-1, 1);
-            this.x = this.x * -1;
+    mirrorImage(ctx) {
+        ctx.save();
+        ctx.translate(this.width, 0);
+        ctx.scale(-1, 1);
+        this.x = this.x * -1;
     }
-    reMirrorImage(ctx){
-    this.x = this.x * -1;
-    ctx.restore();
-}
+    reMirrorImage(ctx) {
+        this.x = this.x * -1;
+        ctx.restore();
+    }
+
+    isColliding(mo) {
+        return this.x + this.width > mo.x &&
+            this.y + this.heigth > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.heigth
+    }
+
 }
