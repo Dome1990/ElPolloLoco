@@ -19,11 +19,13 @@ class World {
         this.checkCollisions();
     }
 
-    checkCollisions(){
+    checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
-                if(this.character.isColliding(enemy)){
-                    console.log('collision with character ' + enemy)
+                if (this.character.isColliding(enemy)) {
+                    // console.log('collision with character ' + enemy)
+                    this.character.hit();
+                    console.log('energy is ' + this.character.energy);
                 }
             });
         }, 1000);
@@ -72,7 +74,7 @@ class World {
             mo.reMirrorImage(this.ctx)
         }
         // painting rectangle
-        if (mo instanceof Chicken || mo instanceof Character) {
+        if (mo instanceof Chicken || mo instanceof Character || mo instanceof Endboss) {
             mo.drawFrame(this.ctx)
         }
     }

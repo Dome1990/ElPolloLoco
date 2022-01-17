@@ -21,6 +21,17 @@ class Character extends MovableObject {
         'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-39.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-40.png'
     ];
+
+    IMAGES_DEAD = [
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-51.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-52.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-53.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-54.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-55.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-56.png',
+        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-57.png'
+    ];
+
     currentImage = 0;
     world;
     speed = 8;
@@ -36,6 +47,7 @@ class Character extends MovableObject {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_DEAD);
         this.animate();
         this.applyGravity();
     }
@@ -45,50 +57,12 @@ class Character extends MovableObject {
          * moving the character and playing walkingsound
          */
         this.checkCharactermovement();
-        // setInterval(() => {
-        //     this.walking_sound.pause();
-        //     /**
-        //      * let character walk
-        //      */
-        //     if (this.world.keyboard.RIGHT) {
-        //         if (!this.isAbove()) {
-        //             this.walking_sound.play();
-        //         }
-        //         this.moveRight();
-        //     }
-        //     if (this.world.keyboard.LEFT) {
-        //         if (this.x > 0) {
-        //             this.moveLeft();
-        //             this.otherDirection = true;
-        //         }
-        //         if (!this.isAbove()) {
-        //             this.walking_sound.play();
-        //         }
-        //     }
-        //     //character will jump with space and arrow up
-        //     if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
-        //         this.jump();
-        //     }
-        //     this.world.camera_x = -this.x + 100;
-        // }, 1000 / 60)
 
         /**
-         * walking animation
+         * animations
          */
         this.animateMovement();
-        // setInterval(() => {
-        //     if (this.isAbove()) {
-        //         this.jumpingAnimation();
-        //     }
-        //     else {
-        //         if (this.world.keyboard.RIGHT) {
-        //             this.walkingAnimation();
-        //         }
-        //         if (this.world.keyboard.LEFT) {
-        //             this.walkingAnimation();
-        //         }
-        //     }
-        // }, 60);
+
     };
 
 }
