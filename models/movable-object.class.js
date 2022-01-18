@@ -10,6 +10,7 @@ class MovableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
+    lastHit = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -89,6 +90,9 @@ class MovableObject {
             if (this.isDead()){
                 this.deadAnimation();
             }
+            else if (this.isHurt()){
+                this.hurtAnimation();
+            }
             else{
                 if (this.isAbove()) {
                     this.jumpingAnimation();
@@ -138,6 +142,13 @@ class MovableObject {
         this.currentImage++;
     }
 
+    hurtAnimation(){
+        let i = this.currentImage % this.IMAGES_HURT.length;
+        let path = this.IMAGES_HURT[i];
+        this.img = this.imgCache[path];
+        this.currentImage++;
+    }
+
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.heigth);
     }
@@ -172,9 +183,18 @@ class MovableObject {
         if(this.energy <= 0){
             this.energy = 0;
         }
+        else{
+            this.lastHit = new Date().getTime();
+        }
     }
 
     isDead(){
         return this.energy == 0;
+    }
+
+    isHurt(){
+      let timePassed = new Date().getTime() - this.lastHit;
+      timePassed = timePassed/1000 // difference in s
+      return timePassed < 1;
     }
 }
