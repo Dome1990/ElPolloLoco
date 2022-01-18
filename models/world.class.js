@@ -39,7 +39,7 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         /**
-         * backgroudposition that changes, when the character is moving
+         * backgroudposition changes, when the character is moving
          */
         this.ctx.translate(this.camera_x, 0);
         /**

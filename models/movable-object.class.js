@@ -1,12 +1,5 @@
-class MovableObject {
-    x = 100;
-    y = 360;
-    heigth;
-    width;
-    img;
-    imgCache = {};
+class MovableObject extends DrawableObject {
     speed = 0.15;
-    currentImage = 0;
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
@@ -25,18 +18,8 @@ class MovableObject {
         return this.y < 360 || this.speedY > 0;
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
 
-    loadImages(arr) {
-        arr.forEach(path => {
-            let img = new Image();
-            img.src = path;
-            this.imgCache[path] = img;
-        });
-    }
+
     /**
      * 
      * @param {*} IMAGES_WALKING animation for enemies
@@ -87,22 +70,25 @@ class MovableObject {
 
     animateMovement() {
         setInterval(() => {
-            if (this.isDead()){
-                this.deadAnimation();
+            if (this.isDead()) {
+                //this.deadAnimation();
+                this.animation(this.IMAGES_DEAD);
             }
-            else if (this.isHurt()){
-                this.hurtAnimation();
+            else if (this.isHurt()) {
+                //this.hurtAnimation();
+                this.animation(this.IMAGES_HURT);
             }
-            else{
-                if (this.isAbove()) {
-                    this.jumpingAnimation();
-                }
-                if (this.world.keyboard.RIGHT) {
-                    this.walkingAnimation();
-                }
-                if (this.world.keyboard.LEFT) {
-                    this.walkingAnimation();
-                }
+            if (this.isAbove()) {
+                //this.jumpingAnimation();
+                this.animation(this.IMAGES_JUMPING);
+            }
+            if (this.world.keyboard.RIGHT) {
+                //this.walkingAnimation();
+                this.animation(this.IMAGES_WALKING);
+            }
+            if (this.world.keyboard.LEFT) {
+                //this.walkingAnimation();
+                this.animation(this.IMAGES_WALKING);
             }
         }, 60);
     }
@@ -121,37 +107,40 @@ class MovableObject {
         this.speedY = 40;
     }
 
-    jumpingAnimation() {
-        let i = this.currentImage % this.IMAGES_JUMPING.length;
-        let path = this.IMAGES_JUMPING[i];
+    animation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
         this.img = this.imgCache[path];
         this.currentImage++;
     }
 
-    walkingAnimation() {
-        let i = this.currentImage % this.IMAGES_WALKING.length;
-        let path = this.IMAGES_WALKING[i];
-        this.img = this.imgCache[path];
-        this.currentImage++;
-    }
+    // jumpingAnimation() {
+    //     let i = this.currentImage % this.IMAGES_JUMPING.length;
+    //     let path = this.IMAGES_JUMPING[i];
+    //     this.img = this.imgCache[path];
+    //     this.currentImage++;
+    // }
 
-    deadAnimation(){
-        let i = this.currentImage % this.IMAGES_DEAD.length;
-        let path = this.IMAGES_DEAD[i];
-        this.img = this.imgCache[path];
-        this.currentImage++;
-    }
+    // walkingAnimation() {
+    //     let i = this.currentImage % this.IMAGES_WALKING.length;
+    //     let path = this.IMAGES_WALKING[i];
+    //     this.img = this.imgCache[path];
+    //     this.currentImage++;
+    // }
 
-    hurtAnimation(){
-        let i = this.currentImage % this.IMAGES_HURT.length;
-        let path = this.IMAGES_HURT[i];
-        this.img = this.imgCache[path];
-        this.currentImage++;
-    }
+    // deadAnimation() {
+    //     let i = this.currentImage % this.IMAGES_DEAD.length;
+    //     let path = this.IMAGES_DEAD[i];
+    //     this.img = this.imgCache[path];
+    //     this.currentImage++;
+    // }
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.heigth);
-    }
+    // hurtAnimation() {
+    //     let i = this.currentImage % this.IMAGES_HURT.length;
+    //     let path = this.IMAGES_HURT[i];
+    //     this.img = this.imgCache[path];
+    //     this.currentImage++;
+    // }
 
     drawFrame(ctx) {
         ctx.beginPath();
@@ -178,23 +167,23 @@ class MovableObject {
             this.y < mo.y + mo.heigth
     }
 
-    hit(){
+    hit() {
         this.energy -= 5;
-        if(this.energy <= 0){
+        if (this.energy <= 0) {
             this.energy = 0;
         }
-        else{
+        else {
             this.lastHit = new Date().getTime();
         }
     }
 
-    isDead(){
+    isDead() {
         return this.energy == 0;
     }
 
-    isHurt(){
-      let timePassed = new Date().getTime() - this.lastHit;
-      timePassed = timePassed/1000 // difference in s
-      return timePassed < 1;
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000 // difference in s
+        return timePassed < 1;
     }
 }
