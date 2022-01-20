@@ -26,7 +26,8 @@ class MovableObject extends DrawableObject {
      */
     playAnimation(IMAGES_WALKING) {
         setInterval(() => {
-            this.walkingAnimation();
+            //this.walkingAnimation();
+            this.animation(this.IMAGES_WALKING);
         }, 100)
         setInterval(() => {
             if (this.x > -1280) {
@@ -82,13 +83,17 @@ class MovableObject extends DrawableObject {
                 //this.jumpingAnimation();
                 this.animation(this.IMAGES_JUMPING);
             }
-            if (this.world.keyboard.RIGHT) {
+            if (this.world.keyboard.RIGHT && !this.isAbove()) {
                 //this.walkingAnimation();
-                this.animation(this.IMAGES_WALKING);
+                if (!this.isHurt()) {
+                    this.animation(this.IMAGES_WALKING);
+                }
             }
-            if (this.world.keyboard.LEFT) {
+            if (this.world.keyboard.LEFT && !this.isAbove()) {
                 //this.walkingAnimation();
-                this.animation(this.IMAGES_WALKING);
+                if (!this.isHurt()) {
+                    this.animation(this.IMAGES_WALKING);
+                }
             }
         }, 60);
     }
@@ -168,7 +173,8 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;
+        this.energy -= 2;
+        console.log(this.energy);
         if (this.energy <= 0) {
             this.energy = 0;
         }
@@ -183,7 +189,7 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
-        timePassed = timePassed / 1000 // difference in s
-        return timePassed < 1;
+       // timePassed = timePassed / 1000 // difference in s
+        return timePassed < 500;
     }
 }

@@ -8,6 +8,7 @@ class World {
     canvas;
     keyboard;
     camera_x = 0;
+    statusBar = new StatusBar();
 
 
     constructor(canvas, keyboard) {
@@ -28,7 +29,7 @@ class World {
                     console.log('energy is ' + this.character.energy);
                 }
             });
-        }, 1000);
+        }, 100);
     }
 
 
@@ -49,7 +50,7 @@ class World {
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.enemies);
         this.addToMap(this.character);
-
+        this.addToMap(this.statusBar);
         this.ctx.translate(-this.camera_x, 0);
 
         /**
