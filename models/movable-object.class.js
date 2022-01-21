@@ -66,6 +66,7 @@ class MovableObject extends DrawableObject {
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
+            this.world.statusbar.x = this.x;
         }, 1000 / 60)
     }
 

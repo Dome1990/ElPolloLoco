@@ -30,6 +30,7 @@ class StatusBar extends DrawableObject {
     }
 
     resolveImageIndex(percantage) {
+        
         if (percantage == 100) {
             return 5;
         }
@@ -45,7 +46,7 @@ class StatusBar extends DrawableObject {
         else if (percantage <= 40 && percantage > 20) {
             return 1;
         }
-        else if (percantage <= 20 && percantage > 1) {
+        else if (percantage <= 20) {
             return 0;
         }
     }
