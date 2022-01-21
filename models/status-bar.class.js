@@ -23,10 +23,10 @@ class StatusBar extends DrawableObject {
     setPercentage(percantage) {
         let path = this.IMAGES[this.resolveImageIndex(percantage)];
         this.img = this.imgCache[path];
-        setInterval(() => {
-            let path = this.IMAGES[this.resolveImageIndex(this.percantage)];
-            this.img = this.imgCache[path];
-        }, 1000/60);
+        // setInterval(() => {
+        //     let path = this.IMAGES[this.resolveImageIndex(this.percantage)];
+        //     this.img = this.imgCache[path];
+        // }, 1000/60);
     }
 
     resolveImageIndex(percantage) {

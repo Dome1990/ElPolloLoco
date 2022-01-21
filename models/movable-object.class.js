@@ -182,7 +182,7 @@ class MovableObject extends DrawableObject {
         else {
             this.lastHit = new Date().getTime();
         }
-        this.world.statusbar.percantage = this.energy;
+        //this.world.statusbar.percantage = this.energy;
     }
 
     isDead() {
