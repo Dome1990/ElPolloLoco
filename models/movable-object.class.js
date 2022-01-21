@@ -181,6 +181,7 @@ class MovableObject extends DrawableObject {
         else {
             this.lastHit = new Date().getTime();
         }
+        this.world.statusbar.percantage = this.energy;
     }
 
     isDead() {
@@ -189,7 +190,7 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
-       // timePassed = timePassed / 1000 // difference in s
+        // timePassed = timePassed / 1000 // difference in s
         return timePassed < 500;
     }
 }
