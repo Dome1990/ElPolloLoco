@@ -66,7 +66,9 @@ class MovableObject extends DrawableObject {
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
-            this.world.statusbar.x = this.x;
+            this.world.healthBar.x = this.x;
+            this.world.coinBar.x = this.x + 250;
+            this.world.bottleBar.x = this.x + 500;
         }, 1000 / 60)
     }
 
@@ -166,11 +168,24 @@ class MovableObject extends DrawableObject {
         ctx.restore();
     }
 
+    /**
+     * check if the character ist colliding with an movable object
+     * @param {object} mo 
+     * @returns 
+     */
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
+        // return this.x + this.width > mo.x &&
+        //     this.y + this.heigth > mo.y &&
+        //     this.x < mo.x &&
+        //     this.y < mo.y + mo.heigth
+        return (this.x + this.width > mo.x &&
             this.y + this.heigth > mo.y &&
             this.x < mo.x &&
-            this.y < mo.y + mo.heigth
+            this.y < mo.y + mo.heigth) ||
+(           this.x > mo.x &&
+                this.x < mo.x + mo.width &&
+                this.y + this.heigth > mo.y &&
+                this.y < mo.y + mo.heigth)
     }
 
     hit() {

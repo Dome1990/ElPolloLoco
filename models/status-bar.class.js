@@ -1,36 +1,64 @@
 class StatusBar extends DrawableObject {
 
-    IMAGES = [
+    HEALTH = [
         'img/7.Marcadores/Barra/Marcador vida/azul/0_.png',
         'img/7.Marcadores/Barra/Marcador vida/azul/20_.png',
         'img/7.Marcadores/Barra/Marcador vida/azul/40_.png',
         'img/7.Marcadores/Barra/Marcador vida/azul/60_.png',
         'img/7.Marcadores/Barra/Marcador vida/azul/80_.png',
         'img/7.Marcadores/Barra/Marcador vida/azul/100_.png'
-    ]
+    ];
+
+    COINS = [
+        'img/7.Marcadores/Barra/Marcador moneda/azul/0_.png',
+        'img/7.Marcadores/Barra/Marcador moneda/azul/20_.png',
+        'img/7.Marcadores/Barra/Marcador moneda/azul/40_.png',
+        'img/7.Marcadores/Barra/Marcador moneda/azul/60_.png',
+        'img/7.Marcadores/Barra/Marcador moneda/azul/80_.png',
+        'img/7.Marcadores/Barra/Marcador moneda/azul/100_.png'
+    ];
+
+    BOTTLES = [
+        'img/7.Marcadores/Barra/Marcador_botella/Azul/0_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Azul/20_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Azul/40_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Azul/60_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Azul/80_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Azul/100_.png',
+    ];
 
     percantage = 100;
 
-    constructor() {
-        super().loadImages(this.IMAGES);
-        this.setPercentage(this.percantage);
-        this.x = 0;
+    constructor(x, barType) {
+        super();
+        // this.checkBarType(barType);
+        this.loadImages(this.checkBarType(barType));
+        this.setPercentage(100, barType);
+        this.x = x;
         this.y = 0;
-        this.width = 400;
-        this.heigth = 100;
+        this.width = 200;
+        this.heigth = 60;
     }
 
-    setPercentage(percantage) {
-        let path = this.IMAGES[this.resolveImageIndex(percantage)];
+    checkBarType(x) {
+        if (x == 'health') {
+            return this.HEALTH;
+        }
+        else if (x == 'coins') {
+            return this.COINS;
+        }
+        else if (x == 'bottles') {
+            return this.BOTTLES;
+        }
+    }
+
+    setPercentage(percantage, barType) {
+        let path = this.checkBarType(barType)[this.resolveImageIndex(percantage)];
         this.img = this.imgCache[path];
-        // setInterval(() => {
-        //     let path = this.IMAGES[this.resolveImageIndex(this.percantage)];
-        //     this.img = this.imgCache[path];
-        // }, 1000/60);
     }
 
     resolveImageIndex(percantage) {
-        
+
         if (percantage == 100) {
             return 5;
         }
