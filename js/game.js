@@ -25,6 +25,11 @@ window.addEventListener('keydown', (e) => {
     else if (e.key == ' ') {
         keyboard.SPACE = true;
     }
+    else if (e.key == 'Enter') {
+        keyboard.ENTER = true;
+        console.log(e)
+        console.log(keyboard.Enter)
+    }
 });
 window.addEventListener('keyup', (e) => {
     if (e.key == 'd' || e.key == 'D' || e.key == 'ArrowRight') {
@@ -41,5 +46,8 @@ window.addEventListener('keyup', (e) => {
     }
     else if (e.key == ' ') {
         keyboard.SPACE = false;
+    }
+    else if (e.key == 'Enter') {
+        keyboard.ENTER = false;
     }
 });
