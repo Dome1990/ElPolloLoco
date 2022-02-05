@@ -41,7 +41,7 @@ class Character extends MovableObject {
     currentImage = 0;
     world;
     speed = 8;
-    otherDirection;
+    //otherDirection;
     x = 0;
     walking_sound = new Audio('audio/running.mp3');
     y = 360;
@@ -69,7 +69,6 @@ class Character extends MovableObject {
          * animations
          */
         this.animateMovement();
-
     };
 
 }

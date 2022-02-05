@@ -1,9 +1,9 @@
 class MovableObject extends DrawableObject {
     speed = 0.15;
-    speedY = 0;
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    otherDirection;
 
     applyGravity() {
         setInterval(() => {
@@ -15,7 +15,12 @@ class MovableObject extends DrawableObject {
     }
 
     isAbove() {
-        return this.y < 360 || this.speedY > 0;
+        if (this instanceof ThrowableObject) {
+            return true;
+        }
+        else {
+            return this.y < 360 || this.speedY > 0;
+        }
     }
 
 
@@ -24,19 +29,20 @@ class MovableObject extends DrawableObject {
      * 
      * @param {*} IMAGES_WALKING animation for enemies
      */
-    playAnimation(IMAGES_WALKING) {
+    playAnimation(movingIMAGES) {
         setInterval(() => {
-            //this.walkingAnimation();
-            this.animation(this.IMAGES_WALKING);
+            this.animation(movingIMAGES);
         }, 100)
-        setInterval(() => {
-            if (this.x > -1280) {
-                this.moveLeft();
-            }
-            else {
-                this.x = 1280;
-            }
-        }, 1000 / 60);
+        if (this instanceof Chicken) {
+            setInterval(() => {
+                if (this.x > -1280) {
+                    this.moveLeft();
+                }
+                else {
+                    this.x = 1280;
+                }
+            }, 1000 / 60);
+        }
     }
 
 
@@ -65,6 +71,10 @@ class MovableObject extends DrawableObject {
             if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
                 this.jump();
             }
+            // if (this.world.keyboard.ENTER){
+            //     console.log('enter');
+            //     this.world.bottle[0].throw(this.x, this.y);
+            // }
             this.world.camera_x = -this.x + 100;
             this.world.healthBar.x = this.x;
             this.world.coinBar.x = this.x + 250;
@@ -122,34 +132,6 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    // jumpingAnimation() {
-    //     let i = this.currentImage % this.IMAGES_JUMPING.length;
-    //     let path = this.IMAGES_JUMPING[i];
-    //     this.img = this.imgCache[path];
-    //     this.currentImage++;
-    // }
-
-    // walkingAnimation() {
-    //     let i = this.currentImage % this.IMAGES_WALKING.length;
-    //     let path = this.IMAGES_WALKING[i];
-    //     this.img = this.imgCache[path];
-    //     this.currentImage++;
-    // }
-
-    // deadAnimation() {
-    //     let i = this.currentImage % this.IMAGES_DEAD.length;
-    //     let path = this.IMAGES_DEAD[i];
-    //     this.img = this.imgCache[path];
-    //     this.currentImage++;
-    // }
-
-    // hurtAnimation() {
-    //     let i = this.currentImage % this.IMAGES_HURT.length;
-    //     let path = this.IMAGES_HURT[i];
-    //     this.img = this.imgCache[path];
-    //     this.currentImage++;
-    // }
-
     drawFrame(ctx) {
         ctx.beginPath();
         ctx.lineWidth = "5";
@@ -174,22 +156,26 @@ class MovableObject extends DrawableObject {
      * @returns 
      */
     isColliding(mo) {
-        // return this.x + this.width > mo.x &&
-        //     this.y + this.heigth > mo.y &&
-        //     this.x < mo.x &&
-        //     this.y < mo.y + mo.heigth
         return (this.x + this.width > mo.x &&
             this.y + this.heigth > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.heigth) ||
-(           this.x > mo.x &&
+            (this.x > mo.x &&
                 this.x < mo.x + mo.width &&
                 this.y + this.heigth > mo.y &&
                 this.y < mo.y + mo.heigth)
     }
 
     hit() {
-        this.energy -= 2;
+        if (this instanceof Character) {
+            this.energy -= 2;
+        }
+        else if (this instanceof Endboss){
+            this.energy -= 5;
+        }
+        else if(this instanceof Chicken){
+            this.energy -= 100;
+        }
         console.log(this.energy);
         if (this.energy <= 0) {
             this.energy = 0;
@@ -197,7 +183,6 @@ class MovableObject extends DrawableObject {
         else {
             this.lastHit = new Date().getTime();
         }
-        //this.world.statusbar.percantage = this.energy;
     }
 
     isDead() {
@@ -206,7 +191,6 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
-        // timePassed = timePassed / 1000 // difference in s
         return timePassed < 500;
     }
 }

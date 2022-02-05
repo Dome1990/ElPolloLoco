@@ -27,8 +27,6 @@ window.addEventListener('keydown', (e) => {
     }
     else if (e.key == 'Enter') {
         keyboard.ENTER = true;
-        console.log(e)
-        console.log(keyboard.Enter)
     }
 });
 window.addEventListener('keyup', (e) => {
