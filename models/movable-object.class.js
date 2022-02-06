@@ -31,17 +31,31 @@ class MovableObject extends DrawableObject {
      */
     playAnimation(movingIMAGES) {
         setInterval(() => {
-            this.animation(movingIMAGES);
+            if (!this.isDead()) {
+                this.animation(movingIMAGES);
+            }
         }, 100)
         if (this instanceof Chicken) {
             setInterval(() => {
-                if (this.x > -1280) {
+                if (this.x > -1280 && !this.isDead()) {
                     this.moveLeft();
+                }
+                else if (this.isDead) {
+                    // this.currentImage = 0;
+                    // console.log(this.currentImage)
+                    this.animation(this.IMAGES_DEAD);
                 }
                 else {
                     this.x = 1280;
                 }
             }, 1000 / 60);
+        }
+        else if (this instanceof Endboss) {
+            setInterval(() => {
+                if (this.isDead()) {
+                    this.animation(this.IMAGES_DEAD);
+                }
+            }, 1000);
         }
     }
 
@@ -170,10 +184,10 @@ class MovableObject extends DrawableObject {
         if (this instanceof Character) {
             this.energy -= 2;
         }
-        else if (this instanceof Endboss){
+        else if (this instanceof Endboss) {
             this.energy -= 5;
         }
-        else if(this instanceof Chicken){
+        else if (this instanceof Chicken) {
             this.energy -= 100;
         }
         console.log(this.energy);

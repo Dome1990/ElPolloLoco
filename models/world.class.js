@@ -31,8 +31,11 @@ class World {
     }
 
     checkCollisions() {
+        /**
+         * check collision between enemy and character
+         */
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && enemy.energy > 0) {
                 this.character.hit();
                 this.healthBar.setPercentage(this.character.energy, 'health');
                 console.log('energy is ' + this.character.energy);
