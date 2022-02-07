@@ -45,7 +45,7 @@ class ThrowableObject extends MovableObject {
                 else {
                     this.splash();
                 }
-            }, 50);
+            }, 1000 / 25);
         }
         else {
             setInterval(() => {
@@ -56,11 +56,12 @@ class ThrowableObject extends MovableObject {
                 else {
                     this.splash();
                 }
-            }, 50);
+            }, 1000 / 25);
         }
     }
 
     splash() {
-        this.animation(this.IMAGES_SPLASH);
+            this.x += this.speedX;
+            this.singleAnimation(this.IMAGES_SPLASH);
     }
 }

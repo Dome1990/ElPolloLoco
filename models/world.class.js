@@ -48,6 +48,7 @@ class World {
                 if (bottle.isColliding(enemy)) {
                     enemy.hit();
                     bottle.collided = true;
+                    
                 }
             });
 

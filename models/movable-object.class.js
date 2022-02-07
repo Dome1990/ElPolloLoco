@@ -43,7 +43,7 @@ class MovableObject extends DrawableObject {
                 else if (this.isDead) {
                     // this.currentImage = 0;
                     // console.log(this.currentImage)
-                    this.animation(this.IMAGES_DEAD);
+                    this.singleAnimation(this.IMAGES_DEAD);
                 }
                 else {
                     this.x = 1280;
@@ -53,9 +53,9 @@ class MovableObject extends DrawableObject {
         else if (this instanceof Endboss) {
             setInterval(() => {
                 if (this.isDead()) {
-                    this.animation(this.IMAGES_DEAD);
+                    this.singleAnimation(this.IMAGES_DEAD);
                 }
-            }, 1000);
+            }, 1000/15);
         }
     }
 
@@ -144,6 +144,16 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imgCache[path];
         this.currentImage++;
+    }
+
+    singleAnimation(images) {
+        let i = this.singleAnimationCounter;
+        let path = images[i];
+        this.img = this.imgCache[path];
+        if (i < images.length - 1) {
+            console.log('i = ' + i + 'images.length = ' + images.length)
+            this.singleAnimationCounter++;
+        }
     }
 
     drawFrame(ctx) {
