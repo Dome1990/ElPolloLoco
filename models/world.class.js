@@ -8,11 +8,32 @@ class World {
     canvas;
     keyboard;
     camera_x = 0;
-    healthBar = new StatusBar(0, 'health');
-    coinBar = new StatusBar(250, 'coins');
-    bottleBar = new StatusBar(500, 'bottles');
     bottle = [];
+    collectableBottles = [
+        new CollectableObject(200, 200, 'bottle'),
+        new CollectableObject(400, 50, 'bottle'),
+        new CollectableObject(600, 200, 'bottle'),
+        new CollectableObject(1000, 200, 'bottle'),
+        new CollectableObject(1200, 50, 'bottle'),
+        new CollectableObject(1400, 200, 'bottle'),
+        new CollectableObject(2400, 200, 'bottle'),
+        new CollectableObject(2600, 50, 'bottle'),
+        new CollectableObject(2800, 200, 'bottle')
+    ];
 
+    collectableCoins = [
+        new CollectableObject(100, 100, 'coin'),
+        new CollectableObject(500, 100, 'coin'),
+        new CollectableObject(1000, 100, 'coin'),
+        new CollectableObject(3000, 100, 'coin'),
+        new CollectableObject(3200, 100, 'coin'),
+        new CollectableObject(3400, 100, 'coin'),
+        new CollectableObject(3500, 100, 'coin')
+    ];
+
+    healthBar = new StatusBar(0, 'health', 100);
+    coinBar = new StatusBar(250, 'coins', 0);
+    bottleBar = new StatusBar(500, 'bottles', 0);
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -41,24 +62,49 @@ class World {
                 console.log('energy is ' + this.character.energy);
             }
 
-/**
- * check for bottle collision with enemies
- */
+            /**
+             * check for bottle collision with enemies
+             */
             this.bottle.forEach(bottle => {
                 if (bottle.isColliding(enemy)) {
                     enemy.hit();
                     bottle.collided = true;
-                    
                 }
+            });
+
+            /**
+             * check collecting bottles
+             */
+            this.collectableBottles.forEach(bottle => {
+                if(this.character.isColliding(bottle)){
+                    bottle.x = -300;
+                    bottle.y = -300;
+                    this.character.amountBottles++;
+                    this.bottleBar.setPercentage((this.character.amountBottles/this.collectableBottles.length)*100, 'bottles');                   
+                } 
+            });
+
+            /**
+             * check collecting coins
+             */
+             this.collectableCoins.forEach(coin => {
+                if(this.character.isColliding(coin)){
+                    coin.x = -300;
+                    coin.y = -300;
+                    this.character.amountCoins++;
+                    this.coinBar.setPercentage((this.character.amountCoins/this.collectableCoins.length)*100, 'coins');                   
+                } 
             });
 
         })
     }
 
     checkThrowObject() {
-        if (this.keyboard.ENTER) {
+        if (this.keyboard.ENTER && this.character.amountBottles > 0) {
             let bottle = new ThrowableObject(this.character.x + 120, this.character.y + 120, this.character.otherDirection);
             this.bottle.push(bottle);
+            this.character.amountBottles--;
+            this.bottleBar.setPercentage((this.character.amountBottles/this.collectableBottles.length)*100, 'bottles');
         }
     }
 
@@ -85,8 +131,9 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
+        this.addObjectToMap(this.collectableBottles);
+        this.addObjectToMap(this.collectableCoins);
         this.addObjectToMap(this.bottle);
-        //this.addToMap(this.bottle);
         this.ctx.translate(-this.camera_x, 0);
 
         /**

@@ -27,13 +27,12 @@ class StatusBar extends DrawableObject {
         'img/7.Marcadores/Barra/Marcador_botella/Azul/100_.png',
     ];
 
-    percantage = 100;
+    percantage;
 
-    constructor(x, barType) {
+    constructor(x, barType, percentage) {
         super();
-        // this.checkBarType(barType);
         this.loadImages(this.checkBarType(barType));
-        this.setPercentage(100, barType);
+        this.setPercentage(percentage, barType);
         this.x = x;
         this.y = 0;
         this.width = 200;

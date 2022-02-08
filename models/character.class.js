@@ -18,9 +18,12 @@ class Character extends MovableObject {
         'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-36.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-37.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-38.png',
-        'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-39.png',
-        'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-40.png'
+        'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-39.png'
     ];
+
+    IMAGES_SHADOW = [
+        'img/2.Secuencias_Personaje-Pepe-corrección/3.Secuencia_salto/J-40.png'
+    ]
 
     IMAGES_DEAD = [
         'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-51.png',
@@ -47,6 +50,8 @@ class Character extends MovableObject {
     y = 360;
     heigth = 300;
     width = 200;
+    amountBottles = 0;
+    amountCoins = 0;
 
 
     constructor() {
@@ -55,6 +60,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_SHADOW);
         this.animate();
         this.applyGravity();
     }
