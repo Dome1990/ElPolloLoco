@@ -1,36 +1,11 @@
 class World {
     character = new Character();
     level = level1;
-    // enemies = level1.enemies;
-    // clouds = level1.clouds;
-    // backgroundObjects = level1.backgroundObjects;
     ctx;
     canvas;
     keyboard;
     camera_x = 0;
     bottle = [];
-    collectableBottles = [
-        new CollectableObject(200, 200, 'bottle'),
-        new CollectableObject(400, 50, 'bottle'),
-        new CollectableObject(600, 200, 'bottle'),
-        new CollectableObject(1000, 200, 'bottle'),
-        new CollectableObject(1200, 50, 'bottle'),
-        new CollectableObject(1400, 200, 'bottle'),
-        new CollectableObject(2400, 200, 'bottle'),
-        new CollectableObject(2600, 50, 'bottle'),
-        new CollectableObject(2800, 200, 'bottle')
-    ];
-
-    collectableCoins = [
-        new CollectableObject(100, 100, 'coin'),
-        new CollectableObject(500, 100, 'coin'),
-        new CollectableObject(1000, 100, 'coin'),
-        new CollectableObject(3000, 100, 'coin'),
-        new CollectableObject(3200, 100, 'coin'),
-        new CollectableObject(3400, 100, 'coin'),
-        new CollectableObject(3500, 100, 'coin')
-    ];
-
     healthBar = new StatusBar(0, 'health', 100);
     coinBar = new StatusBar(250, 'coins', 0);
     bottleBar = new StatusBar(500, 'bottles', 0);
@@ -52,51 +27,51 @@ class World {
     }
 
     checkCollisions() {
-        /**
-         * check collision between enemy and character
-         */
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy) && enemy.energy > 0) {
-                this.character.hit();
-                this.healthBar.setPercentage(this.character.energy, 'health');
-                console.log('energy is ' + this.character.energy);
-            }
-
-            /**
-             * check for bottle collision with enemies
-             */
-            this.bottle.forEach(bottle => {
-                if (bottle.isColliding(enemy)) {
-                    enemy.hit();
-                    bottle.collided = true;
-                }
-            });
-
-            /**
-             * check collecting bottles
-             */
-            this.collectableBottles.forEach(bottle => {
-                if(this.character.isColliding(bottle)){
-                    bottle.x = -300;
-                    bottle.y = -300;
-                    this.character.amountBottles++;
-                    this.bottleBar.setPercentage((this.character.amountBottles/this.collectableBottles.length)*100, 'bottles');                   
-                } 
-            });
-
-            /**
-             * check collecting coins
-             */
-             this.collectableCoins.forEach(coin => {
-                if(this.character.isColliding(coin)){
-                    coin.x = -300;
-                    coin.y = -300;
-                    this.character.amountCoins++;
-                    this.coinBar.setPercentage((this.character.amountCoins/this.collectableCoins.length)*100, 'coins');                   
-                } 
-            });
-
+            this.enemieHurtCharacter(enemy);
+            this.hitByBottle(enemy);
         })
+        this.collectBottle();
+        this.collectCoin();
+    }
+
+    enemieHurtCharacter(enemy) {
+        if (this.character.isColliding(enemy) && enemy.energy > 0) {
+            this.character.hit();
+            this.healthBar.setPercentage(this.character.energy, 'health');
+            console.log('energy is ' + this.character.energy);
+        }
+    }
+
+    hitByBottle(enemy) {
+        this.bottle.forEach(bottle => {
+            if (bottle.isColliding(enemy)) {
+                enemy.hit();
+                bottle.collided = true;
+            }
+        });
+    }
+
+    collectBottle() {
+        this.level.collectableBottles.forEach(bottle => {
+            if (this.character.isColliding(bottle)) {
+                bottle.x = -300;
+                bottle.y = -300;
+                this.character.amountBottles++;
+                this.bottleBar.setPercentage((this.character.amountBottles / this.level.collectableBottles.length) * 100, 'bottles');
+            }
+        });
+    }
+
+    collectCoin() {
+        this.level.collectableCoins.forEach(coin => {
+            if (this.character.isColliding(coin)) {
+                coin.x = -300;
+                coin.y = -300;
+                this.character.amountCoins++;
+                this.coinBar.setPercentage((this.character.amountCoins / this.level.collectableCoins.length) * 100, 'coins');
+            }
+        });
     }
 
     checkThrowObject() {
@@ -104,7 +79,7 @@ class World {
             let bottle = new ThrowableObject(this.character.x + 120, this.character.y + 120, this.character.otherDirection);
             this.bottle.push(bottle);
             this.character.amountBottles--;
-            this.bottleBar.setPercentage((this.character.amountBottles/this.collectableBottles.length)*100, 'bottles');
+            this.bottleBar.setPercentage((this.character.amountBottles / this.level.collectableBottles.length) * 100, 'bottles');
         }
     }
 
@@ -122,17 +97,9 @@ class World {
         /**
          * draw elements
          */
-        this.addObjectToMap(this.level.backgroundObjects);
-        this.addObjectToMap(this.level.clouds);
-        this.addObjectToMap(this.level.enemies);
-
-        //this.addObjectToMap(this.level.statusBar);
+        this.addLevel();
         this.addToMap(this.character);
-        this.addToMap(this.healthBar);
-        this.addToMap(this.coinBar);
-        this.addToMap(this.bottleBar);
-        this.addObjectToMap(this.collectableBottles);
-        this.addObjectToMap(this.collectableCoins);
+        this.addBars();
         this.addObjectToMap(this.bottle);
         this.ctx.translate(-this.camera_x, 0);
 
@@ -144,6 +111,21 @@ class World {
             self.draw();
         });
     }
+
+    addLevel() {
+        this.addObjectToMap(this.level.backgroundObjects);
+        this.addObjectToMap(this.level.clouds);
+        this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.collectableBottles);
+        this.addObjectToMap(this.level.collectableCoins);
+    }
+
+    addBars() {
+        this.addToMap(this.healthBar);
+        this.addToMap(this.coinBar);
+        this.addToMap(this.bottleBar);
+    }
+
     addObjectToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o)
@@ -167,5 +149,4 @@ class World {
         this.character.world = this;
         this.level.enemies[3].world = this;
     }
-
 }
