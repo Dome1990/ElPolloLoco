@@ -31,9 +31,10 @@ class MovableObject extends DrawableObject {
      */
     playAnimation(movingIMAGES) {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && this instanceof Chicken) {
                 this.animation(movingIMAGES);
             }
+
         }, 100)
         if (this instanceof Chicken) {
             setInterval(() => {
@@ -52,10 +53,21 @@ class MovableObject extends DrawableObject {
         }
         else if (this instanceof Endboss) {
             setInterval(() => {
-                if (this.isDead()) {
+                //console.log(this)
+                if (!this.isDead() && (this.x - this.world.character.x) > 800) {
+                    this.animation(movingIMAGES);
+                }
+                else if (!this.isDead() && (this.x - this.world.character.x) < 800 && !this.isHurt()){
+                    this.animation(this.IMAGES_ATTACK);
+                }
+                else if (!this.isDead() && this.isHurt()){
+                    console.log('hurt hurt hurt');
+                    this.animation(this.IMAGES_HURT);
+                }
+                else if (this.isDead()) {
                     this.singleAnimation(this.IMAGES_DEAD);
                 }
-            }, 1000/15);
+            }, 1000 / 15);
         }
     }
 

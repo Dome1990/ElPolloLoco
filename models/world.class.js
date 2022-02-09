@@ -165,6 +165,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.level.enemies[3].world = this;
     }
 
 }
