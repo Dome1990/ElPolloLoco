@@ -33,13 +33,21 @@ class World {
         })
         this.collectBottle();
         this.collectCoin();
+
+
+
+        /**
+         * jump on head
+         */
+
+        
+
     }
 
     enemieHurtCharacter(enemy) {
         if (this.character.isColliding(enemy) && enemy.energy > 0) {
             this.character.hit();
             this.healthBar.setPercentage(this.character.energy, 'health');
-            console.log('energy is ' + this.character.energy);
         }
     }
 
@@ -75,7 +83,7 @@ class World {
     }
 
     checkThrowObject() {
-        if (this.keyboard.ENTER && this.character.amountBottles > 0) {
+        if (this.keyboard.ENTER && this.character.amountBottles > 0 && !this.character.isDead()) {
             let bottle = new ThrowableObject(this.character.x + 120, this.character.y + 120, this.character.otherDirection);
             this.bottle.push(bottle);
             this.character.amountBottles--;

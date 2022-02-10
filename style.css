@@ -10,3 +10,16 @@ canvas{
     width: 720px;
     background-color: black;
 }
+
+button{
+    margin-top: 16px;
+    padding: 6px;
+    background-color: blueviolet;
+    color: white;
+    font-weight: bold;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    border-color: black;
+    cursor: pointer;
+}

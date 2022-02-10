@@ -49,3 +49,7 @@ window.addEventListener('keyup', (e) => {
         keyboard.ENTER = false;
     }
 });
+
+function fullscreen(){
+    canvas.requestFullscreen();
+}

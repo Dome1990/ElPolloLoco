@@ -42,8 +42,6 @@ class MovableObject extends DrawableObject {
                     this.moveLeft();
                 }
                 else if (this.isDead) {
-                    // this.currentImage = 0;
-                    // console.log(this.currentImage)
                     this.singleAnimation(this.IMAGES_DEAD);
                 }
                 else {
@@ -79,7 +77,6 @@ class MovableObject extends DrawableObject {
                 else if (this.isDead()) {
                     this.singleAnimation(this.IMAGES_DEAD);
                 }
-                console.log((this.x - this.world.character.x));
             }, 1000 / 15);
         }
     }
@@ -91,13 +88,13 @@ class MovableObject extends DrawableObject {
             /**
              * let character walk
              */
-            if (this.world.keyboard.RIGHT) {
+            if (this.world.keyboard.RIGHT && !this.isDead()) {
                 if (!this.isAbove()) {
                     this.walking_sound.play();
                 }
                 this.moveRight();
             }
-            if (this.world.keyboard.LEFT) {
+            if (this.world.keyboard.LEFT && !this.isDead()) {
                 if (this.x > 0) {
                     this.moveLeft();
                     this.otherDirection = true;
@@ -106,7 +103,7 @@ class MovableObject extends DrawableObject {
                     this.walking_sound.play();
                 }
             }
-            if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
+            if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove() && !this.isDead()) {//&& this.y >=360
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
@@ -127,12 +124,12 @@ class MovableObject extends DrawableObject {
             if (this.isAbove()) {
                 this.animation(this.IMAGES_JUMPING);
             }
-            if (this.world.keyboard.RIGHT && !this.isAbove()) {
+            if (this.world.keyboard.RIGHT && !this.isAbove() && !this.isDead()) {
                 if (!this.isHurt()) {
                     this.animation(this.IMAGES_WALKING);
                 }
             }
-            if (this.world.keyboard.LEFT && !this.isAbove()) {
+            if (this.world.keyboard.LEFT && !this.isAbove()  && !this.isDead()) {
                 if (!this.isHurt()) {
                     this.animation(this.IMAGES_WALKING);
                 }
@@ -171,7 +168,6 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imgCache[path];
         if (i < images.length - 1) {
-            console.log('i = ' + i + 'images.length = ' + images.length)
             this.singleAnimationCounter++;
         }
     }
@@ -220,7 +216,6 @@ class MovableObject extends DrawableObject {
         else if (this instanceof Chicken) {
             this.energy -= 100;
         }
-        console.log(this.energy);
         if (this.energy <= 0) {
             this.energy = 0;
         }
