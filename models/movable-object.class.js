@@ -106,6 +106,7 @@ class MovableObject extends DrawableObject {
             }
             if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove() && !this.isDead()) {//&& this.y >=360
                 this.jump();
+                this.enableJump = true;
             }
             this.world.camera_x = -this.x + 100;
             this.world.healthBar.x = this.x;
@@ -123,9 +124,12 @@ class MovableObject extends DrawableObject {
             else if (this.isHurt()) {
                 this.animation(this.IMAGES_HURT);
             }
-            if (this.isAbove()) {
-                this.animation(this.IMAGES_JUMPING);
+            if(this.enableJump){
+                this.checkJumpAnimation();
             }
+            // if (this.isAbove()) {
+            //     this.animation(this.IMAGES_JUMPING);
+            // }
             if (this.world.keyboard.RIGHT && !this.isAbove() && !this.isDead()) {
                 if (!this.isHurt()) {
                     this.animation(this.IMAGES_WALKING);
@@ -154,11 +158,127 @@ class MovableObject extends DrawableObject {
         this.x -= this.speed;
     }
 
-    jump() {
-        this.speedY = 40;
+    jumpcount = 0;
+    jumpPhase = 0;
+    lastHeight;
+    enableJump = false;
+
+    checkJumpAnimation(){
+
+        if (this.jumpcount == 0){
+            //img1
+            this.jumpPhase = 1;
+            this.animateJump();
+            this.jumpcount++;
+        }
+        else if (this.jumpcount == 1){
+            //img2
+            this.jumpPhase = 2;
+            this.animateJump();
+            this.jumpcount++;
+            this.lastHeight = this.y;
+        }
+        else if (this.jumpcount >=1 && this.y - this.lastHeight < 0){
+            //img3
+            this.jumpPhase = 3;
+            this.animateJump();
+            this.lastHeight = this.y;
+        }
+        else if (this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 < 10){
+            //img4
+            this.jumpPhase = 4;
+            this.animateJump();
+            this.lastHeight = this.y;
+        }
+        else if (this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 > 10){
+            //img5
+            this.jumpPhase = 5;
+            this.animateJump();
+            this.lastHeight = this.y;
+        }
+        else if(this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 > 90){
+            //img6
+            this.jumpPhase = 6;
+            this.animateJump();
+            this.lastHeight = this.y;
+        }
+        else if(this.y - this.lastHeight == 0 && this.jumpcount !=3){
+            //img7
+            this.jumpPhase = 7;
+            this.animateJump();
+            this.jumpcount = 3;
+            this.lastHeight = this.y;
+        }
+        else if(this.y - this.lastHeight == 0 && this.jumpcount == 3){
+           // img 7
+           this.enableJump = false;
+           this.jumpPhase = 8;
+           this.animateJump();
+           this.jumpcount = 0;
+           this.lastHeight = this.y;
+           this.enableJump = false;
+        }
     }
 
+
+    animateJump(){
+        let i = this.jumpPhase;
+        let path = this.IMAGES_JUMPING[i];
+        this.img = this.imgCache[path];
+    }
+
+    jump() {
+
+        // if (this.jumpcount == 0 && !this.isAbove()){
+        //     //img1
+        //     this.jumpcount++;
+        // }
+        // else if (this.jumpcount == 1){
+        //     //img2
+        //     this.jumpcount++;
+        //     this.lastHeight = this.y;
+        // }
+        // else if (this.jumpcount >=1 && this.y - this.lastHeight < 0){
+        //     //img3
+        //     this.lastHeight = this.y;
+        // }
+        // else if (this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 < 80){
+        //     //img4
+        //     this.lastHeight = this.y;
+        // }
+        // else if (this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 > 80){
+        //     //img5
+        //     this.lastHeight = this.y;
+        // }
+        // else if(this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 > 90){
+        //     //img6
+        //     this.lastHeight = this.y;
+        // }
+        // else if(this.y - this.lastHeight == 0){
+        //     //img7
+        //     this.jumpcount++;
+        // }
+        // else if(this.y - this.lastHeight == 0 && this.jumpcount == 3){
+        //    // img 7
+        //    //this.enableJump = true;
+        //    this.jumpcount = 0;
+        //    this.lastHeight = this.y;
+        // }
+
+
+
+        this.speedY = 40;
+
+
+       
+    }
+
+
+
     animation(images) {
+        if(this instanceof Character){
+            console.log('height' + this.y)
+        }
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imgCache[path];
