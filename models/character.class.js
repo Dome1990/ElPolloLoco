@@ -32,7 +32,7 @@ class Character extends MovableObject {
         'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-54.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-55.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-56.png',
-        'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-57.png'
+    //    'img/2.Secuencias_Personaje-Pepe-corrección/5.Muerte/D-57.png'
     ];
 
     IMAGES_HURT = [

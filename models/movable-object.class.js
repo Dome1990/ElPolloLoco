@@ -4,6 +4,7 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     otherDirection;
+    deadAnimationCounter = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -116,7 +117,8 @@ class MovableObject extends DrawableObject {
     animateMovement() {
         setInterval(() => {
             if (this.isDead()) {
-                this.animation(this.IMAGES_DEAD);
+                //this.animation(this.IMAGES_DEAD);
+                this.deadAnimation(this.IMAGES_DEAD);
             }
             else if (this.isHurt()) {
                 this.animation(this.IMAGES_HURT);
@@ -129,7 +131,7 @@ class MovableObject extends DrawableObject {
                     this.animation(this.IMAGES_WALKING);
                 }
             }
-            if (this.world.keyboard.LEFT && !this.isAbove()  && !this.isDead()) {
+            if (this.world.keyboard.LEFT && !this.isAbove() && !this.isDead()) {
                 if (!this.isHurt()) {
                     this.animation(this.IMAGES_WALKING);
                 }
@@ -169,6 +171,15 @@ class MovableObject extends DrawableObject {
         this.img = this.imgCache[path];
         if (i < images.length - 1) {
             this.singleAnimationCounter++;
+        }
+    }
+
+    deadAnimation(images) {
+        let i = this.deadAnimationCounter;
+        let path = images[i];
+        this.img = this.imgCache[path];
+        if (i < images.length - 1) {
+            this.deadAnimationCounter++;
         }
     }
 
