@@ -53,20 +53,33 @@ class MovableObject extends DrawableObject {
         }
         else if (this instanceof Endboss) {
             setInterval(() => {
-                //console.log(this)
+                this.otherDirection = false;
                 if (!this.isDead() && (this.x - this.world.character.x) > 800) {
                     this.animation(movingIMAGES);
                 }
-                else if (!this.isDead() && (this.x - this.world.character.x) < 800 && !this.isHurt()){
-                    this.animation(this.IMAGES_ATTACK);
+                else if (!this.isDead() && (this.x - this.world.character.x) < 800 && !this.isHurt()) {
+                    if ((this.x - this.world.character.x) <= -487) {
+                        this.moveRight();
+                        this.animation(this.IMAGES_WALK)
+                    }
+                    else if ((this.x - this.world.character.x) < 800 && (this.x - this.world.character.x) > 190) {
+                        this.moveLeft();
+                        this.animation(this.IMAGES_WALK);
+                    }
+                    if (this.isColliding(this.world.character)) {
+                        if ((this.x - this.world.character.x) < -300) {
+                            this.otherDirection = true;
+                        }
+                        this.animation(this.IMAGES_ATTACK);
+                    }
                 }
-                else if (!this.isDead() && this.isHurt()){
-                    console.log('hurt hurt hurt');
+                else if (!this.isDead() && this.isHurt()) {
                     this.animation(this.IMAGES_HURT);
                 }
                 else if (this.isDead()) {
                     this.singleAnimation(this.IMAGES_DEAD);
                 }
+                console.log((this.x - this.world.character.x));
             }, 1000 / 15);
         }
     }
@@ -93,14 +106,9 @@ class MovableObject extends DrawableObject {
                     this.walking_sound.play();
                 }
             }
-            //character will jump with space and arrow up
             if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove()) {//&& this.y >=360
                 this.jump();
             }
-            // if (this.world.keyboard.ENTER){
-            //     console.log('enter');
-            //     this.world.bottle[0].throw(this.x, this.y);
-            // }
             this.world.camera_x = -this.x + 100;
             this.world.healthBar.x = this.x;
             this.world.coinBar.x = this.x + 250;
@@ -111,25 +119,20 @@ class MovableObject extends DrawableObject {
     animateMovement() {
         setInterval(() => {
             if (this.isDead()) {
-                //this.deadAnimation();
                 this.animation(this.IMAGES_DEAD);
             }
             else if (this.isHurt()) {
-                //this.hurtAnimation();
                 this.animation(this.IMAGES_HURT);
             }
             if (this.isAbove()) {
-                //this.jumpingAnimation();
                 this.animation(this.IMAGES_JUMPING);
             }
             if (this.world.keyboard.RIGHT && !this.isAbove()) {
-                //this.walkingAnimation();
                 if (!this.isHurt()) {
                     this.animation(this.IMAGES_WALKING);
                 }
             }
             if (this.world.keyboard.LEFT && !this.isAbove()) {
-                //this.walkingAnimation();
                 if (!this.isHurt()) {
                     this.animation(this.IMAGES_WALKING);
                 }
@@ -140,7 +143,12 @@ class MovableObject extends DrawableObject {
     moveRight() {
         if (this.x < this.world.level.level_end_x) {
             this.x += this.speed;
-            this.otherDirection = false;
+            if (this instanceof Character) {
+                this.otherDirection = false;
+            }
+            else if (this instanceof Endboss) {
+                this.otherDirection = true;
+            }
         }
     }
     moveLeft() {

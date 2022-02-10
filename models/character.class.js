@@ -44,7 +44,6 @@ class Character extends MovableObject {
     currentImage = 0;
     world;
     speed = 8;
-    //otherDirection;
     x = 0;
     walking_sound = new Audio('audio/running.mp3');
     y = 360;
