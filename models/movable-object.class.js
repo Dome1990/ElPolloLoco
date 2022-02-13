@@ -5,6 +5,8 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     otherDirection;
     deadAnimationCounter = 0;
+    hitChicken_sound = new Audio('audio/hitChicken.mp3');
+    defeatedEndboss_sound = new Audio('audio/defeatedEndboss.mp3');
 
     applyGravity() {
         setInterval(() => {
@@ -107,6 +109,7 @@ class MovableObject extends DrawableObject {
             if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isAbove() && !this.isDead()) {//&& this.y >=360
                 this.jump();
                 this.enableJump = true;
+                this.jumping_sound.play();
             }
             this.world.camera_x = -this.x + 100;
             this.world.healthBar.x = this.x;
@@ -124,7 +127,7 @@ class MovableObject extends DrawableObject {
             else if (this.isHurt()) {
                 this.animation(this.IMAGES_HURT);
             }
-            if(this.enableJump){
+            if (this.enableJump) {
                 this.checkJumpAnimation();
             }
             // if (this.isAbove()) {
@@ -163,65 +166,65 @@ class MovableObject extends DrawableObject {
     lastHeight;
     enableJump = false;
 
-    checkJumpAnimation(){
+    checkJumpAnimation() {
 
-        if (this.jumpcount == 0){
+        if (this.jumpcount == 0) {
             //img1
             this.jumpPhase = 1;
             this.animateJump();
             this.jumpcount++;
         }
-        else if (this.jumpcount == 1){
+        else if (this.jumpcount == 1) {
             //img2
             this.jumpPhase = 2;
             this.animateJump();
             this.jumpcount++;
             this.lastHeight = this.y;
         }
-        else if (this.jumpcount >=1 && this.y - this.lastHeight < 0){
+        else if (this.jumpcount >= 1 && this.y - this.lastHeight < 0) {
             //img3
             this.jumpPhase = 3;
             this.animateJump();
             this.lastHeight = this.y;
         }
-        else if (this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 < 10){
+        else if (this.y - this.lastHeight > 0 && ((this.y - 20) / 340) * 100 < 10) {
             //img4
             this.jumpPhase = 4;
             this.animateJump();
             this.lastHeight = this.y;
         }
-        else if (this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 > 10){
+        else if (this.y - this.lastHeight > 0 && ((this.y - 20) / 340) * 100 > 10) {
             //img5
             this.jumpPhase = 5;
             this.animateJump();
             this.lastHeight = this.y;
         }
-        else if(this.y - this.lastHeight > 0 && ((this.y-20)/340)*100 > 90){
+        else if (this.y - this.lastHeight > 0 && ((this.y - 20) / 340) * 100 > 90) {
             //img6
             this.jumpPhase = 6;
             this.animateJump();
             this.lastHeight = this.y;
         }
-        else if(this.y - this.lastHeight == 0 && this.jumpcount !=3){
+        else if (this.y - this.lastHeight == 0 && this.jumpcount != 3) {
             //img7
             this.jumpPhase = 7;
             this.animateJump();
             this.jumpcount = 3;
             this.lastHeight = this.y;
         }
-        else if(this.y - this.lastHeight == 0 && this.jumpcount == 3){
-           // img 7
-           this.enableJump = false;
-           this.jumpPhase = 8;
-           this.animateJump();
-           this.jumpcount = 0;
-           this.lastHeight = this.y;
-           this.enableJump = false;
+        else if (this.y - this.lastHeight == 0 && this.jumpcount == 3) {
+            // img 7
+            this.enableJump = false;
+            this.jumpPhase = 8;
+            this.animateJump();
+            this.jumpcount = 0;
+            this.lastHeight = this.y;
+            this.enableJump = false;
         }
     }
 
 
-    animateJump(){
+    animateJump() {
         let i = this.jumpPhase;
         let path = this.IMAGES_JUMPING[i];
         this.img = this.imgCache[path];
@@ -270,13 +273,13 @@ class MovableObject extends DrawableObject {
         this.speedY = 40;
 
 
-       
+
     }
 
 
 
     animation(images) {
-        if(this instanceof Character){
+        if (this instanceof Character) {
             console.log('height' + this.y)
         }
         let i = this.currentImage % images.length;
@@ -340,12 +343,22 @@ class MovableObject extends DrawableObject {
     hit() {
         if (this instanceof Character) {
             this.energy -= 2;
+            if (this.energy > 2) {
+                this.characterHit_sound.play();
+            }
         }
-        else if (this instanceof Endboss) {
+        else if (this instanceof Endboss && this.energy >= 4) {
             this.energy -= 5;
+            if (this.energy < 5) {
+                this.defeatedEndboss_sound.play();
+            }
+            else if(this.energy > 6){
+                this.hitChicken_sound.play();
+            }
         }
-        else if (this instanceof Chicken) {
+        else if (this instanceof Chicken && this.energy > 80) {
             this.energy -= 100;
+            this.hitChicken_sound.play();
         }
         if (this.energy <= 0) {
             this.energy = 0;

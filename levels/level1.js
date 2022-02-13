@@ -60,8 +60,8 @@ const level1 = new Level(
         new CollectableObject(2500, 100, 'coin'),
         new CollectableObject(2600, 500, 'coin'),
         new CollectableObject(2800, 200, 'coin')
+    ],
+    [
+        new Audio('audio/mexican_hat_dance.mp3'),
     ]
-    // [
-    //     new StatusBar(),
-    // ]
 );

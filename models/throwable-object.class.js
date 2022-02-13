@@ -1,5 +1,6 @@
 class ThrowableObject extends MovableObject {
     collided = false;
+    bottleHit_sound = new Audio('audio/bottleHit.mp3');
 
 
     IMAGES_BOTTLEROTAION = [

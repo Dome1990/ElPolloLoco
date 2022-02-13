@@ -46,6 +46,8 @@ class Character extends MovableObject {
     speed = 8;
     x = 0;
     walking_sound = new Audio('audio/running.mp3');
+    jumping_sound = new Audio('audio/jump.mp3');
+    characterHit_sound = new Audio('audio/characterHit.mp3')
     y = 360;
     heigth = 300;
     width = 200;

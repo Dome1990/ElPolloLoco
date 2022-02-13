@@ -3,10 +3,10 @@ let world;
 let keyboard = new Keyboard;
 
 function init() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-    world.canvas.height = 739;
-    world.canvas.width = 1280;
+    // canvas = document.getElementById('canvas');
+    // world = new World(canvas, keyboard);
+    // world.canvas.height = 739;
+    // world.canvas.width = 1280;
 }
 
 window.addEventListener('keydown', (e) => {

@@ -1,5 +1,9 @@
 class CollectableObject extends DrawableObject {
 
+    coin_sound = new Audio('audio/coin.mp3');
+    collectBottle_sound = new Audio('audio/collectBottle.mp3');
+ 
+
     IMAGE_BOTTLE = [
         'img/6.botella/1.Marcador.png'
     ]

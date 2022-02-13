@@ -30,24 +30,36 @@ class World {
         this.level.enemies.forEach(enemy => {
             this.enemieHurtCharacter(enemy);
             this.hitByBottle(enemy);
+
+
+
+            /**
+             * jump on head
+             */
+
+
+            if (this.character.isColliding(enemy) && this.character.y > this.character.lastHeight && enemy instanceof Chicken && !enemy.isDead()) {
+                enemy.hit();
+                this.character.speedY = 15;
+            }
         })
         this.collectBottle();
         this.collectCoin();
 
 
 
-        /**
-         * jump on head
-         */
-
-        
-
     }
 
     enemieHurtCharacter(enemy) {
         if (this.character.isColliding(enemy) && enemy.energy > 0) {
-            this.character.hit();
-            this.healthBar.setPercentage(this.character.energy, 'health');
+
+            if (enemy instanceof Chicken && this.character.y > this.character.lastHeight) {
+                return 0;
+            }
+            else {
+                this.character.hit();
+                this.healthBar.setPercentage(this.character.energy, 'health');
+            }
         }
     }
 
@@ -56,6 +68,7 @@ class World {
             if (bottle.isColliding(enemy)) {
                 enemy.hit();
                 bottle.collided = true;
+                bottle.bottleHit_sound.play();
             }
         });
     }
@@ -67,6 +80,7 @@ class World {
                 bottle.y = -300;
                 this.character.amountBottles++;
                 this.bottleBar.setPercentage((this.character.amountBottles / this.level.collectableBottles.length) * 100, 'bottles');
+                bottle.collectBottle_sound.play();
             }
         });
     }
@@ -74,6 +88,7 @@ class World {
     collectCoin() {
         this.level.collectableCoins.forEach(coin => {
             if (this.character.isColliding(coin)) {
+                coin.coin_sound.play();
                 coin.x = -300;
                 coin.y = -300;
                 this.character.amountCoins++;
@@ -93,6 +108,10 @@ class World {
 
 
     draw() {
+        /**
+         * play backgroundmusic of the level
+         */
+        this.level.levelBgMusic[0].play();
         /**
          * clear the canvas
          */
