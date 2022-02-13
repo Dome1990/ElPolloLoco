@@ -23,7 +23,20 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObject();
+            this.checkGameOver();
         }, 100);
+    }
+
+    checkGameOver() {
+        if (this.level.enemies[3].isDead()) {
+            console.log('endboss is dead')
+        }
+        else if (this.character.isDead()) {
+            console.log('dead character')
+        }
+        else if (this.character.bottlesThrown == this.level.collectableBottles.length) {
+            console.log('no bottles left')
+        }
     }
 
     checkCollisions() {
@@ -103,6 +116,7 @@ class World {
             this.bottle.push(bottle);
             this.character.amountBottles--;
             this.bottleBar.setPercentage((this.character.amountBottles / this.level.collectableBottles.length) * 100, 'bottles');
+            this.character.bottlesThrown++;
         }
     }
 

@@ -2,12 +2,23 @@ let canvas;
 let world;
 let keyboard = new Keyboard;
 
-function init() {
-    // canvas = document.getElementById('canvas');
-    // world = new World(canvas, keyboard);
-    // world.canvas.height = 739;
-    // world.canvas.width = 1280;
+function startGame() {
+    gameArea = document.getElementById('gameArea');
+    gameArea.innerHTML = '';
+    gameArea.innerHTML += `
+    <div class="gameStart">
+    <canvas id="canvas">
+
+    </canvas>
+    <button onclick="fullscreen()">Fullscreen</button>
+    </div>
+    `;
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+    world.canvas.height = 739;
+    world.canvas.width = 1280;
 }
+
 
 window.addEventListener('keydown', (e) => {
     if (e.key == 'd' || e.key == 'D' || e.key == 'ArrowRight') {
@@ -50,6 +61,6 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
-function fullscreen(){
+function fullscreen() {
     canvas.requestFullscreen();
 }

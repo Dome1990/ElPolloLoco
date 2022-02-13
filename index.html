@@ -24,14 +24,20 @@
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body>
     <h1>El Pollo Loco</h1>
 
-    <canvas id="canvas">
+    <div id="gameArea">
+        <div class="gameStart">
+            <img class="gameImg" src="img/9.Intro _ Outro Image/Start Screen/Opción 1.png">
+            <button class="startGameBtn" id="startGame" onclick="startGame()">Start Game</button>
+        </div>
+        <!-- <canvas id="canvas">
 
-    </canvas>
+        </canvas> -->
+    </div>
 
-    <button onclick="fullscreen()">Fullscreen</button>
+    <!-- <button onclick="fullscreen()">Fullscreen</button> -->
 
 </body>
 
