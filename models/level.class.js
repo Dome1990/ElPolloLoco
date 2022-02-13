@@ -8,12 +8,13 @@ class Level {
     levelBgMusic;
 
 
-constructor(enemies, clouds, backgroundObjects, collectableBottles, collectableCoins, levelBgMusic){
+constructor(enemies, clouds, backgroundObjects, collectableBottles, collectableCoins, levelBgMusic, endscreen){
     this.enemies = enemies;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;
     this.collectableBottles = collectableBottles;
     this.collectableCoins = collectableCoins;
     this.levelBgMusic = levelBgMusic;
+    this.endscreen = endscreen;
 }
 }

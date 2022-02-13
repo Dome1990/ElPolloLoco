@@ -63,5 +63,8 @@ const level1 = new Level(
     ],
     [
         new Audio('audio/mexican_hat_dance.mp3'),
+    ],
+    [
+        new Endscreen(),
     ]
 );

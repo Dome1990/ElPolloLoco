@@ -115,6 +115,7 @@ class MovableObject extends DrawableObject {
             this.world.healthBar.x = this.x;
             this.world.coinBar.x = this.x + 250;
             this.world.bottleBar.x = this.x + 500;
+            this.world.level.endscreen[0].x = this.x -100;
         }, 1000 / 60)
     }
 

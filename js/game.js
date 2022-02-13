@@ -4,19 +4,42 @@ let keyboard = new Keyboard;
 
 function startGame() {
     gameArea = document.getElementById('gameArea');
-    gameArea.innerHTML = '';
-    gameArea.innerHTML += `
-    <div class="gameStart">
-    <canvas id="canvas">
+    gameArea.innerHTML = addElPolloLoco();
+    // `
+    // <div class="gameStart">
+    // <canvas id="canvas">
 
-    </canvas>
-    <button onclick="fullscreen()">Fullscreen</button>
-    </div>
-    `;
+    // </canvas>
+    // <div id="buttons">
+    // <button onclick="fullscreen()">Fullscreen</button>
+    // </div>
+    // </div>
+    // `;
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     world.canvas.height = 739;
     world.canvas.width = 1280;
+}
+
+function addElPolloLoco(){
+    return     `
+    <div class="gameStart">
+    <canvas id="canvas">
+
+    </canvas>
+    <div id="buttons">
+    <button onclick="fullscreen()">Fullscreen</button>
+    </div>
+    </div>
+    `;
+}
+
+function gameOver(){
+    console.log('gameoverfunction')
+    buttons = document.getElementById('buttons');
+    buttons.innerHTML = `
+    <button onclick="startGame">Restart</button>
+    `;
 }
 
 

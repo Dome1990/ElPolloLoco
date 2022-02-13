@@ -9,6 +9,7 @@ class World {
     healthBar = new StatusBar(0, 'health', 100);
     coinBar = new StatusBar(250, 'coins', 0);
     bottleBar = new StatusBar(500, 'bottles', 0);
+    gameRunning = true;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -29,7 +30,8 @@ class World {
 
     checkGameOver() {
         if (this.level.enemies[3].isDead()) {
-            console.log('endboss is dead')
+            //console.log('endboss is dead')
+            this.gameRunning = false;
         }
         else if (this.character.isDead()) {
             console.log('dead character')
@@ -123,40 +125,47 @@ class World {
 
     draw() {
         /**
-         * play backgroundmusic of the level
-         */
-        this.level.levelBgMusic[0].play();
-        /**
-         * clear the canvas
-         */
+        *clear the canvas
+        */
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         /**
-         * backgroudposition changes, when the character is moving
-         */
+        *backgroudposition changes, when the character is moving
+        */
         this.ctx.translate(this.camera_x, 0);
         /**
-         * draw elements
-         */
+        * draw elements
+        */
         this.addLevel();
-        this.addToMap(this.character);
-        this.addBars();
-        this.addObjectToMap(this.bottle);
-        this.ctx.translate(-this.camera_x, 0);
 
-        /**
-         * requestAnimationFrame will recall the draw method
-         */
-        self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
+        if (this.gameRunning) {
+            /**
+             * play backgroundmusic of the level
+             */
+            this.level.levelBgMusic[0].play();
+            this.addToMap(this.character);
+            this.addBars();
+            this.addObjectToMap(this.bottle);
+            this.addObjectToMap(this.level.enemies);
+            this.ctx.translate(-this.camera_x, 0);
+            /**
+             * requestAnimationFrame will recall the draw method
+             */
+            self = this;
+            requestAnimationFrame(function () {
+                self.draw();
+            });
+        }
+        else if (!this.gameRunning) {
+            this.level.levelBgMusic[0].pause();
+            this.addObjectToMap(this.level.endscreen);
+            gameOver();
+        }
     }
 
     addLevel() {
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
-        this.addObjectToMap(this.level.enemies);
+
         this.addObjectToMap(this.level.collectableBottles);
         this.addObjectToMap(this.level.collectableCoins);
     }
