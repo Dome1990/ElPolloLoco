@@ -2,25 +2,22 @@ let canvas;
 let world;
 let keyboard = new Keyboard;
 
+/**
+ * add canvas and start game with new World
+ */
 function startGame() {
     gameArea = document.getElementById('gameArea');
     gameArea.innerHTML = addElPolloLoco();
-    // `
-    // <div class="gameStart">
-    // <canvas id="canvas">
-
-    // </canvas>
-    // <div id="buttons">
-    // <button onclick="fullscreen()">Fullscreen</button>
-    // </div>
-    // </div>
-    // `;
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     world.canvas.height = 739;
     world.canvas.width = 1280;
 }
 
+/**
+ * 
+ * @returns html code to display the canvas and add the fullscreen button
+ */
 function addElPolloLoco(){
     return     `
     <div class="gameStart">
@@ -34,6 +31,9 @@ function addElPolloLoco(){
     `;
 }
 
+/**
+ * change the fullscreen button to restart button
+ */
 function gameOver(){
     console.log('gameoverfunction')
     buttons = document.getElementById('buttons');
@@ -42,7 +42,9 @@ function gameOver(){
     `;
 }
 
-
+/**
+ * event listener for the controls
+ */
 window.addEventListener('keydown', (e) => {
     if (e.key == 'd' || e.key == 'D' || e.key == 'ArrowRight') {
         keyboard.RIGHT = true;
@@ -63,6 +65,7 @@ window.addEventListener('keydown', (e) => {
         keyboard.ENTER = true;
     }
 });
+
 window.addEventListener('keyup', (e) => {
     if (e.key == 'd' || e.key == 'D' || e.key == 'ArrowRight') {
         keyboard.RIGHT = false;
@@ -84,6 +87,9 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
+/**
+ * convert canvas to fullscreen
+ */
 function fullscreen() {
     canvas.requestFullscreen();
 }

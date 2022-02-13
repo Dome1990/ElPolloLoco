@@ -11,14 +11,6 @@ class Clouds extends MovableObject {
 
     animate() {
         this.moveLeft()
-        // setInterval(() => {
-        //     if (this.x > -1280) {
-        //         this.x -= this.speed;
-        //     }
-        //     else{
-        //         this.x = 1280;
-        //     }
-        // }, 1000 / 60);
     }
 }
 

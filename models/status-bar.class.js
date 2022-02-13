@@ -39,6 +39,11 @@ class StatusBar extends DrawableObject {
         this.heigth = 60;
     }
 
+    /**
+     * check wich type of bar should be displayed
+     * @param {string} x 
+     * @returns array
+     */
     checkBarType(x) {
         if (x == 'health') {
             return this.HEALTH;
@@ -51,13 +56,22 @@ class StatusBar extends DrawableObject {
         }
     }
 
+    /**
+     * change the bar when the percentage is changed
+     * @param {number} percantage 
+     * @param {string} barType 
+     */
     setPercentage(percantage, barType) {
         let path = this.checkBarType(barType)[this.resolveImageIndex(percantage)];
         this.img = this.imgCache[path];
     }
 
+    /**
+     * gaves the number of the image with the wright percentage in the array back
+     * @param {number} percantage 
+     * @returns number
+     */
     resolveImageIndex(percantage) {
-
         if (percantage == 100) {
             return 5;
         }

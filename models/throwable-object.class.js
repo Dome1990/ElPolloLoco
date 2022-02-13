@@ -22,7 +22,6 @@ class ThrowableObject extends MovableObject {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_BOTTLEROTAION);
         this.loadImages(this.IMAGES_SPLASH);
-        //this.playAnimation(this.IMAGES_BOTTLEROTAION);
         this.x = x;
         this.y = y;
         this.otherDirection = otherDirection;
@@ -31,38 +30,53 @@ class ThrowableObject extends MovableObject {
         this.throw(this.x, this.y)
     }
 
-
-
+    /**
+     * throw an object
+     */
     throw() {
         this.speedX = 15;
         this.speedY = 40;
         this.applyGravity();
         if (this.otherDirection) {
-            setInterval(() => {
-                if (!this.collided) {
-                    this.x -= this.speedX;
-                    this.animation(this.IMAGES_BOTTLEROTAION);
-                }
-                else {
-                    this.splash();
-                }
-            }, 1000 / 25);
+            this.throwLeft();
         }
         else {
-            setInterval(() => {
-                if (!this.collided) {
-                    this.x += this.speedX;
-                    this.animation(this.IMAGES_BOTTLEROTAION);
-                }
-                else {
-                    this.splash();
-                }
-            }, 1000 / 25);
+            this.throwRight();
         }
     }
 
+    /**
+     * throw the object left
+     */
+    throwLeft() {
+        setInterval(() => {
+            if (!this.collided) {
+                this.x -= this.speedX;
+                this.animation(this.IMAGES_BOTTLEROTAION);
+            }
+            else {
+                this.splash();
+            }
+        }, 1000 / 25);
+    }
+
+    /**
+     * throw the object right
+     */
+    throwRight(){
+        setInterval(() => {
+            if (!this.collided) {
+                this.x += this.speedX;
+                this.animation(this.IMAGES_BOTTLEROTAION);
+            }
+            else {
+                this.splash();
+            }
+        }, 1000 / 25);
+    }
+
     splash() {
-            this.x += this.speedX;
-            this.singleAnimation(this.IMAGES_SPLASH);
+        this.x += this.speedX;
+        this.singleAnimation(this.IMAGES_SPLASH);
     }
 }
