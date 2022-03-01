@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ElPolloLoco</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Love+Ya+Like+A+Sister&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <script src="models/world.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -28,12 +33,32 @@
 <body>
     <h1>El Pollo Loco</h1>
 
+    <div id="instructions" onclick="hideInstructions()" class="instructions">
+        <div class="instBoard">
+            <ul>
+                <li>
+                    Move left with the A key
+                </li>
+                <li>
+                    Move Right with the D key
+                </li>
+                <li>
+                    Jump with Space
+                </li>
+                <li>
+                    Throw bottles with Enter
+                </li>
+            </ul>
+            <button onclick="hideInstructions()"> OK </button>
+        </div>
+    </div>
+
     <div id="gameArea">
         <div class="gameStart">
             <img class="gameImg" src="img/9.Intro _ Outro Image/Start Screen/Opción 1.png">
             <div id="buttons">
-            <button class="startGameBtn" id="startGame" onclick="startGame()">Start Game</button>
-        </div>
+                <button class="startGameBtn" id="startGame" onclick="startGame()">Start Game</button>
+            </div>
         </div>
     </div>
 

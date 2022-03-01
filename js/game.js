@@ -2,6 +2,9 @@ let canvas;
 let world;
 let keyboard = new Keyboard;
 
+function hideInstructions(){
+document.getElementById('instructions').style.display = 'none';
+}
 /**
  * add canvas and start game with new World
  */
@@ -12,6 +15,10 @@ function startGame() {
     world = new World(canvas, keyboard);
     world.canvas.height = 739;
     world.canvas.width = 1280;
+}
+
+function restart(){
+    location.reload();
 }
 
 /**
@@ -35,10 +42,9 @@ function addElPolloLoco(){
  * change the fullscreen button to restart button
  */
 function gameOver(){
-    console.log('gameoverfunction')
     buttons = document.getElementById('buttons');
     buttons.innerHTML = `
-    <button onclick="startGame">Restart</button>
+    <button onclick="restart()">Restart</button>
     `;
 }
 

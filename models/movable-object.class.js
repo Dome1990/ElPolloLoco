@@ -523,7 +523,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof Character) {
             this.hitCharacter();
         }
-        else if (this instanceof Endboss && this.energy >= 4) {
+        else if (this instanceof Endboss && this.energy >= 0.5) {
             this.hitEndboss();
         }
         else if (this instanceof Chicken && this.energy > 80) {
@@ -551,13 +551,14 @@ class MovableObject extends DrawableObject {
      * damage to endboss
      */
     hitEndboss() {
-        this.energy -= 5;
-        if (this.energy < 5) {
+        this.energy -= 3;
+        if (this.energy <= 1) {
             this.defeatedEndboss_sound.play();
         }
-        else if (this.energy > 6) {
+        else if (this.energy > 3) {
             this.hitChicken_sound.play();
         }
+        console.log(this.energy)
     }
 
     /**
